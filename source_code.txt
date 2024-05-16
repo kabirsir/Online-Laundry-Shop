@@ -17,3 +17,17 @@ public:
         cout << "Order Completed " << message << endl;
     }
 };
+
+class Feedback {
+private:
+    string feedback;
+
+public:
+    // Constructor
+    Feedback(const string& _feedback) : feedback(_feedback) {}
+
+    // Function to display feedback
+    void displayFeedback() const {
+        cout << "Feedback: " << feedback << endl;
+    }
+};
