@@ -59,3 +59,31 @@ public:
     string getName() const { return name; }
     double getPrice() const { return price; }
 };
+
+class LaundryItem {
+private:
+    int id;
+    string name;
+    double weight; // Weight of the item in kilograms
+    string material; // Material of the item (e.g., cotton, wool)
+    bool isWashed; // Whether the item has been washed
+
+public:
+    // Constructor
+    LaundryItem(int _id, string _name, double _weight, string _material)
+        : id(_id), name(_name), weight(_weight), material(_material), isWashed(false) {}
+
+    // Getter functions
+    int getId() const { return id; }
+    string getName() const { return name; }
+    double getWeight() const { return weight; }
+    string getMaterial() const { return material; }
+    bool getIsWashed() const { return isWashed; }
+
+    // Function to mark item as washed
+    void markAsWashed() {
+        isWashed = true;
+        cout << name << " has been washed." << endl;
+    }
+};
+
