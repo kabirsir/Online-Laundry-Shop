@@ -46,3 +46,16 @@ public:
     }
 };
 
+class Service {
+private:
+    string name;
+    double price;
+
+public:
+    // Constructor
+    Service(const string& _name, double _price) : name(_name), price(_price) {}
+
+    // Getter functions
+    string getName() const { return name; }
+    double getPrice() const { return price; }
+};
