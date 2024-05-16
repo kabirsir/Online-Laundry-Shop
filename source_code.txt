@@ -3,3 +3,17 @@
 #include <vector>
 
 using namespace std;
+
+class Notification {
+private:
+    string message;
+
+public:
+    // Constructor
+    Notification(const string& _message) : message(_message) {}
+
+    // Function to display notification
+    void displayNotification() const {
+        cout << "Order Completed " << message << endl;
+    }
+};
