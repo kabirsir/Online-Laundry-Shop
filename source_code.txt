@@ -87,3 +87,61 @@ public:
     }
 };
 
+class LaundryOrder {
+private:
+    int orderId;
+    vector<LaundryItem*> items;
+    string status;
+    Feedback* feedback; // Feedback for the order
+    Notification* notification; // Notification for the order
+
+public:
+    // Constructor
+    LaundryOrder(int _orderId) : orderId(_orderId), status("Pending"), feedback(nullptr), notification(nullptr) {}
+
+    // Destructor to free memory for feedback and notification
+    ~LaundryOrder() {
+        delete feedback;
+        delete notification;
+    }
+
+    // Getter functions
+    int getOrderId() const { return orderId; }
+    string getStatus() const { return status; }
+
+    // Function to add an item to the order
+    void addItem(LaundryItem* item) {
+        items.push_back(item);
+    }
+
+    // Function to update order status
+    void updateStatus(const string& newStatus) {
+        status = newStatus;
+    }
+
+    // Function to add feedback
+    void addFeedback(const string& fb) {
+        feedback = new Feedback(fb);
+    }
+
+    // Function to add notification
+    void addNotification(const string& msg) {
+        notification = new Notification(msg);
+    }
+
+    // Function to display order details
+    void displayOrder() const {
+        cout << "Order ID: " << orderId << endl;
+        cout << "Status: " << status << endl;
+        cout << "Items in the order:" << endl;
+        for (const auto& item : items) {
+            cout << "- Name: " << item->getName() << " | Weight: " << item->getWeight() << "kg | Material: " << item->getMaterial() << endl;
+        }
+        if (feedback != nullptr) {
+            feedback->displayFeedback();
+        }
+        if (notification != nullptr) {
+            notification->displayNotification();
+        }
+    }
+};
