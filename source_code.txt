@@ -262,3 +262,100 @@ public:
     }
 };
 
+class NotificationManager {
+private:
+    vector<Notification*> notifications;
+
+public:
+    // Destructor to free memory for notifications
+    ~NotificationManager() {
+        for (auto& notification : notifications) {
+            delete notification;
+        }
+    }
+
+    // Function to add a notification
+    void addNotification(const string& msg) {
+        notifications.push_back(new Notification(msg));
+    }
+
+    // Function to display all notifications
+    void displayNotifications() const {
+        cout << "Order Completed" << endl;
+        for (const auto& notification : notifications) {
+            notification->displayNotification();
+        }
+    }
+};
+
+// Function to register a new customer
+void registerCustomer() {
+    string username, password, password2;
+
+    cout << "Please enter your username: ";
+    cin >> username;
+
+    cout << "Please enter the password: ";
+    cin >> password;
+
+    cout << "Please re-enter your password: ";
+    cin >> password2;
+
+    if (password == password2) {
+        // Perform registration tasks (e.g., store username and password)
+        cout << "Customer registered successfully!" << endl;
+
+        // Create a new customer
+        Customer newCustomer(username, password);
+
+        // Add available services
+        // Assuming Regular Wash and Dry Clean are available services
+        Service regularWash("Regular Wash", 500);
+        Service dryClean("Dry Clean", 1000);
+
+        // Display available services
+        cout << "Available Services:" << endl;
+        cout << "1. " << regularWash.getName() << " (" << regularWash.getPrice() << " rupees)" << endl;
+        cout << "2. " << dryClean.getName() << " (" << dryClean.getPrice() << " rupees)" << endl;
+
+        int choice;
+        cout << "Enter the number corresponding to the service you want to select: ";
+        cin >> choice;
+
+        if (choice == 1) {
+            newCustomer.updateService(&regularWash);
+        } else if (choice == 2) {
+            newCustomer.updateService(&dryClean);
+        } else {
+            cout << "Invalid choice. Service not selected." << endl;
+        }
+
+        // Display selected service
+        newCustomer.displaySelectedService();
+    } else {
+        cout << "Passwords do not match. Registration failed.\n";
+    }
+}
+
+// Function to login an existing customer
+bool loginCustomer() {
+    // Placeholder for login logic
+    return true;
+}
+
+// Function to logout
+void logout() {
+    // Placeholder for logout logic
+    cout << "Logged out successfully.\n";
+}
+
+// Function to change service
+void changeService(Customer& customer) {
+    // Implementation remains the same
+}
+
+// Function to track order
+void trackOrder(const Customer& customer) {
+    customer.displayOrderHistory();
+}
+
