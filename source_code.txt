@@ -262,3 +262,210 @@ public:
     }
 };
 
+class NotificationManager {
+private:
+    vector<Notification*> notifications;
+
+public:
+    // Destructor to free memory for notifications
+    ~NotificationManager() {
+        for (auto& notification : notifications) {
+            delete notification;
+        }
+    }
+
+    // Function to add a notification
+    void addNotification(const string& msg) {
+        notifications.push_back(new Notification(msg));
+    }
+
+    // Function to display all notifications
+    void displayNotifications() const {
+        cout << "Order Completed" << endl;
+        for (const auto& notification : notifications) {
+            notification->displayNotification();
+        }
+    }
+};
+
+// Function to register a new customer
+void registerCustomer() {
+    string username, password, password2;
+
+    cout << "Please enter your username: ";
+    cin >> username;
+
+    cout << "Please enter the password: ";
+    cin >> password;
+
+    cout << "Please re-enter your password: ";
+    cin >> password2;
+
+    if (password == password2) {
+        // Perform registration tasks (e.g., store username and password)
+        cout << "Customer registered successfully!" << endl;
+
+        // Create a new customer
+        Customer newCustomer(username, password);
+
+        // Add available services
+        // Assuming Regular Wash and Dry Clean are available services
+        Service regularWash("Regular Wash", 500);
+        Service dryClean("Dry Clean", 1000);
+
+        // Display available services
+        cout << "Available Services:" << endl;
+        cout << "1. " << regularWash.getName() << " (" << regularWash.getPrice() << " rupees)" << endl;
+        cout << "2. " << dryClean.getName() << " (" << dryClean.getPrice() << " rupees)" << endl;
+
+        int choice;
+        cout << "Enter the number corresponding to the service you want to select: ";
+        cin >> choice;
+
+        if (choice == 1) {
+            newCustomer.updateService(&regularWash);
+        } else if (choice == 2) {
+            newCustomer.updateService(&dryClean);
+        } else {
+            cout << "Invalid choice. Service not selected." << endl;
+        }
+
+        // Display selected service
+        newCustomer.displaySelectedService();
+    } else {
+        cout << "Passwords do not match. Registration failed.\n";
+    }
+}
+
+// Function to login an existing customer
+bool loginCustomer() {
+    // Placeholder for login logic
+    return true;
+}
+
+// Function to logout
+void logout() {
+    // Placeholder for logout logic
+    cout << "Logged out successfully.\n";
+}
+
+// Function to change service
+void changeService(Customer& customer) {
+    // Implementation remains the same
+}
+
+// Function to track order
+void trackOrder(const Customer& customer) {
+    customer.displayOrderHistory();
+}
+
+int main() {
+    cout << "Welcome to the Online Laundry Shop!" << endl;
+
+    while (true) {
+        // Ask user to register or login
+        cout << "1. Register" << endl;
+        cout << "2. Login" << endl;
+        cout << "3. Exit" << endl;
+        cout << "Enter your choice: ";
+        int choice;
+        cin >> choice;
+
+        switch (choice) {
+            case 1:
+                registerCustomer();
+                break;
+            case 2:
+                if (!loginCustomer()) {
+                    cout << "Login failed. Exiting..." << endl;
+                    return 0;
+                }
+                // After successful registration or login, proceed to online Laundry Shop
+                cout << "Welcome to the online Laundry Shop!" << endl;
+                {
+                    // Create a customer
+                    Customer currentCustomer("currentuser", "currentuserpassword");
+
+                    // Create a notification manager
+                    NotificationManager notificationManager;
+
+                    while (true) {
+                        cout << "Online Laundry Shop|Laundry made easy" << endl;
+                        cout << "1. Add Laundry Item to Cart" << endl;
+                        cout << "2. View Laundry Cart" << endl;
+                        cout << "3. Place Laundry Order" << endl;
+                        cout << "4. View Order History" << endl;
+                        cout << "5. Change Service" << endl;
+                        cout << "6. View Selected Service" << endl;
+                        cout << "7. Track Order" << endl;
+                        cout << "8. Process Payment" << endl;
+                        cout << "9. View Notifications" << endl;
+                        cout << "10. Logout" << endl;
+                        cout << "11. Exit" << endl;
+                        cout << "Enter your choice: ";
+                        cin >> choice;
+                        switch (choice) {
+                            case 1: {
+                                int id;
+                                string name, material;
+                                double weight;
+                                cout << "Enter item ID: ";
+                                cin >> id;
+                                cout << "Enter item name: ";
+                                cin >> name;
+                                cout << "Enter item material: ";
+                                cin >> material;
+                                cout << "Enter item weight (in kg): ";
+                                cin >> weight;
+                                LaundryItem* newItem = new LaundryItem(id, name, weight, material);
+                                currentCustomer.addToCart(newItem);
+                                break;
+                            }
+                            case 2:
+                                currentCustomer.displayCart();
+                                break;
+                            case 3:
+                                currentCustomer.placeOrder();
+                                break;
+                            case 4:
+                                currentCustomer.displayOrderHistory();
+                                break;
+                            case 5:
+                                changeService(currentCustomer);
+                                break;
+                            case 6:
+                                currentCustomer.displaySelectedService();
+                                break;
+                            case 7:
+                                trackOrder(currentCustomer);
+                                break;
+                            case 8:
+                                currentCustomer.processPayment();
+                                break;
+                            case 9:
+                                notificationManager.displayNotifications();
+                                break;
+                            case 10:
+                                logout();
+                                break;
+                            case 11:
+                                cout << "Thank you for using the Online Laundry Shop|Laundry made easy. Goodbye!" << endl;
+                                return 0;
+                            default:
+                                cout << "Invalid choice. Please try again." << endl;
+                        }
+                        if (choice == 10) // If logout, break from the inner loop
+                            break;
+                    }
+                }
+                break;
+            case 3:
+                cout << "Thank you for using the Online Laundry Shop. Goodbye!" << endl;
+                return 0;
+            default:
+                cout << "Invalid choice. Please try again." << endl;
+        }
+    }
+
+    return 0;
+}
